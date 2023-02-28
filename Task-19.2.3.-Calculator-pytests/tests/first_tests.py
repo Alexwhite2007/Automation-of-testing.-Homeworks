@@ -8,7 +8,7 @@ class TestCalc:  # название класса обязательно начи
         # из импортированного класса (т.е мы подключаем тестируемый объект калькулятора)
 
     def test_multiply_calculate_correctly(self):          # тест на правильность умножения
-        assert self.calc.multiply(self, 2, 2) == 4
+        assert self.calc.multiply(self, 2, 2) == 4, "Success"
 
     def test_division_calculate_correctly(self):          # тест на правильность деления
         assert self.calc.division(self, 6, 3) == 2
@@ -18,3 +18,10 @@ class TestCalc:  # название класса обязательно начи
 
     def test_adding_calculate_correctly(self):            # тест на правильность сложения
         assert self.calc.adding(self, 3, 5) == 8
+
+    def test_zero_division(self):                         # проверяем что срабатывает запрет деления на 0
+        with pytest.raises(ZeroDivisionError):
+            self.calc.division(self, 2, 0)
+
+    def teardown(self):
+        print("выполнение teardown")
