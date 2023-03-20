@@ -50,7 +50,6 @@ def test_my_pets_data(login_and_go_to_my_pets):
         assert types[i].text != ''
 
     # Проверка №3 - хотя бы у половины питомцев есть фото
-    # Устанавливаем неявные ожидания(сек)
     number_of_images = 0
     half_num = float((len(mypets) - 1) / 2)
 
@@ -66,7 +65,6 @@ def test_my_pets_data(login_and_go_to_my_pets):
     assert len(names) == len(unique_names)
 
     # Проверка №5 - В списке нет повторяющихся питомцев.
-    # Устанавливаем неявные ожидания(сек)
     unq_pets = []
     for pet in mypets:
         unq_pets.append(pet.text)
