@@ -1,7 +1,7 @@
 import json
 
 import requests
-from requests_toolbelt.multipart.encoder import MultipartEncoder
+from requests_toolbelt.multipart.encoder import MultipartEncoder  # для загрузки изображений POST запросом
 
 
 class PetFriends:
@@ -21,7 +21,7 @@ class PetFriends:
         res = requests.get(self.base_url + 'api/key', headers=headers)
         status = res.status_code
         result = ""  # объявляем переменную result
-        try:  # а в этом блоке будем присваивать ей значение
+        try:  # а в этом блоке будем присваивать ей значение, если не выйдет перевести в json, то в текст
             result = res.json()
         except json.decoder.JSONDecodeError:
             result = res.text
@@ -59,7 +59,7 @@ class PetFriends:
             })
         headers = {'auth_key': auth_key['key'], 'Content-Type': data.content_type}
 
-        res = requests.post(self.base_url + 'api/pets', headers=headers, data=data)
+        res = requests.post(self.base_url + 'api/pets', headers=headers, data=data)  # data - формат form data в теле запроса
         status = res.status_code
         result = ""
         try:
