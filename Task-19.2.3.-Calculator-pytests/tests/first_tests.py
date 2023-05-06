@@ -1,27 +1,43 @@
-import pytest
-from app.calculator import Calculator
+import pytest as pytest
+
+from app.calculator import multiply, division, subtraction, adding
 
 
-class TestCalc:  # название класса обязательно начинается с Test
-    def setup(self):  # определяем подготовительный метод setup
-        self.calc = Calculator  # в котором мы будем создавать объект калькулятора
-        # из импортированного класса (т.е мы подключаем тестируемый объект калькулятора)
+@pytest.mark.parametrize("a,b,expected_result", [(2, 2, 4),
+                                                 (3, 2.5, 7.5),
+                                                 (-3, 3, -9)])
+def test_multiply_calculate_correctly(a, b, expected_result):  # позитивные тесты на правильность умножения
+    assert multiply(a, b) == expected_result, "Unsuccessful"
 
-    def test_multiply_calculate_correctly(self):          # тест на правильность умножения
-        assert self.calc.multiply(self, 2, 2) == 4, "Success"
 
-    def test_division_calculate_correctly(self):          # тест на правильность деления
-        assert self.calc.division(self, 6, 3) == 2
+@pytest.mark.parametrize("a,b,expected_result", [(6, 3, 2),
+                                                 (-6, -3, 2),
+                                                 (9, -3, -3)])
+def test_division_calculate_correctly(a, b, expected_result):  # позитивные тесты на правильность деления
+    assert division(a, b) == expected_result, "Unsuccessful"
 
-    def test_subtraction_calculate_correctly(self):       # тест на правильность вычитания
-        assert self.calc.subtraction(self, 7, 3) == 4
 
-    def test_adding_calculate_correctly(self):            # тест на правильность сложения
-        assert self.calc.adding(self, 3, 5) == 8
+@pytest.mark.parametrize("a,b,expected_result", [(7, 3, 4),
+                                                 (-4, -2, -2),
+                                                 (1, -4, 5)])
+def test_subtraction_calculate_correctly(a, b, expected_result):  # позитивные тесты на правильность вычитания
+    assert subtraction(a, b) == expected_result, "Unsuccessful"
 
-    def test_zero_division(self):                         # проверяем что срабатывает запрет деления на 0
-        with pytest.raises(ZeroDivisionError):
-            self.calc.division(self, 2, 0)
 
-    def teardown(self):
-        print("выполнение teardown")
+@pytest.mark.parametrize("a,b,expected_result", [(2, 2, 4),
+                                                 (-4, 2, -2),
+                                                 (1, -4, -3)])
+def test_adding_calculate_correctly(a, b, expected_result):  # позитивные тесты на правильность сложения
+    assert adding(a, b) == expected_result, "Unsuccessful"
+
+
+@pytest.mark.parametrize("expected_exception, a, b", [(ZeroDivisionError, 10, 0),
+                                                      (TypeError, 10, "2"),
+                                                      (TypeError, 10, "2"),
+                                                      (TypeError, 10, "2")])
+def test_with_invalid_data(expected_exception, a, b):  # негативные тесты, деление на 0 и тип str вместо int
+    with pytest.raises(expected_exception):
+        assert division(a, b)
+        assert multiply(a, b)
+        assert adding(a, b)
+        assert subtraction(a, b)
